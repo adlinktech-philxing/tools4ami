@@ -1,0 +1,64 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CounterOverride",
+            "type": "shell",
+            "command": "CounterOverride.bat ${input:param1} ${input:param_CO}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "ReOverride",
+            "type": "shell",
+            "command": "ReOverride.bat ${input:param1}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "FSPBuild",
+            "type": "shell",
+            "command": "fbuild.bat ${input:param1}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "xbuild",
+            "type": "shell",
+            "command": "xbuild.bat ${input:param1} ${input:param2}",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "param1",
+            "description": "VeB file name",
+            "default": "Template",
+            "type": "promptString"
+        },
+        {
+            "id": "param2",
+            "description": "'r' for ReBuild, 'z' for AUTOZIP, anything else for Build ",
+            "default": "b",
+            "type": "promptString"
+        },
+        {
+            "id": "param3",
+            "description": "framework type, 'AMI' or 'ADLINK'",
+            "default": "ADLINK",
+            "type": "promptString"
+        },
+        {
+            "id": "param_CO",
+            "description": "CRB code folder",
+            "default": "C:\\BIOS\\CRB\\EagleStream",
+            "type": "promptString"
+        },
+    ]
+}

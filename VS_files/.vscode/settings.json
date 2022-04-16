@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.sdl": "makefile",
+        "*.veb": "makefile",
+        "*.cif": "makefile",
+        "AdlinkMakefile": "makefile",
+        "*.EFI": "hexdump",
+        "*.asi": "asl",
+        "*.sd": "cpp",
+        "*.dsc.inc": "edk2_dsc",
+        "*.hfr": "cpp",
+        "amilib.h": "c",
+        "readonlyvariable.h": "c"
+    },
+    "python.pythonPath": "d:\\Python\\Python38\\python.exe"
+}
