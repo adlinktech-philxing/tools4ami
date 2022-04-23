@@ -16,11 +16,13 @@ set TOOLS_DIR=%BUILD_TOOL_DIR%
 @REM goto no_Veb_Pref
 
 set VEB_PREF_FILE=%BUILD_TOOL_DIR%\VisualeBios\configuration\.settings\com.ami.veb.ui.prefs
-if not exist %VEB_PREF_FILE% goto no_Veb_Pref
+@REM if not exist %VEB_PREF_FILE% goto no_Veb_Pref
 python %~dp0setvebenv.py %VEB_PREF_FILE% %CD%\%1
-call set_veb_env.bat
-del set_veb_env.bat
-goto end_Veb_env
+if exist set_veb_env.bat (
+    call set_veb_env.bat
+    del set_veb_env.bat
+    goto end_Veb_env
+)
 
 @REM ---------------------------------------
 @REM set tool path manually
@@ -38,7 +40,6 @@ set EWDK_DIR=C:\EWDK_1703
 set PATH=%CCX86_ROOT_DIR%;%EWDK_DIR%;%PATH%
 
 set PYTHON_COMMAND=C:\Python\Python310\python.exe
-@REM set PYTHON_COMMAND=C:\Python\Python377rc1\python.exe
 @REM ---------------------------------------
 :end_Veb_env
 python %~dp0checkouttool.py %TOOLS_DIR% %1

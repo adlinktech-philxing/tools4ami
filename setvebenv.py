@@ -14,9 +14,10 @@ pathnames=os.path.splitext(veb_project_file)
 veb_project_file=os.path.join(pathnames[0]+'.dat')
 
 ev_cnt=0
-ecNames=[]
-ecValues=[]
-npath=os.environ['Path']
+evNames=[]
+evValues=[]
+# npath=os.environ['Path']
+npath=""
 #
 # Resolve VeB global settings
 #
@@ -36,14 +37,14 @@ if os.path.exists(veb_setting_file):
     ev_index=0
     for line in veb_setting:
         if (ecName_prefix in line):
-            ecNames.append(line[line.index('=')+1:])
+            evNames.append(line[line.index('=')+1:])
             ev_index+=1
             if ev_index==ev_cnt:
                 break
     ev_index=0
     for line in veb_setting:
         if (ecValue_prefix in line):
-            ecValues.append(line[line.index('=')+1:])
+            evValues.append(line[line.index('=')+1:])
             ev_index+=1
             if ev_index==ev_cnt:
                 break
@@ -97,26 +98,27 @@ if os.path.exists(veb_project_file):
     for i in range(datVarCount):
         datVarNameLen= ord(struct.unpack('c', projectFile.read(1))[0])
         datVarName=projectFile.read(datVarNameLen)
-        ecNames.append(str(datVarName, encoding))
+        evNames.append(str(datVarName, encoding))
 
     datVarCount= struct.unpack('h', projectFile.read(2))[0]
     for i in range(datVarCount):
         datVarNameLen= ord(struct.unpack('c', projectFile.read(1))[0])
         datVarName=projectFile.read(datVarNameLen)
-        ecValues.append(str(datVarName, encoding))
+        evValues.append(str(datVarName, encoding))
 #
 # write the batch file
 #
-if len(ecNames)>0:
+if len(evNames)>0 or (len(npath)>0):
     with open('set_veb_env.bat', 'w') as output_file:
         for i in range(ev_cnt+datVarCount):
-            p=ecValues[i].replace("\\:", ":")
+            p=evValues[i].replace("\\:", ":")
             p=p.replace("\\\\", "\\")
-            output_file.write('set ' + ecNames[i] + '=' + p + '\n')
-        output_file.write('set path='+npath)
+            output_file.write('set ' + evNames[i] + '=' + p + '\n')
+        if len(npath)>0:
+            output_file.write('set path='+npath+';'+os.environ['Path'])
     # ToDo: below snippet won't work to replace above, why?
     # for i in range(ev_cnt+datVarCount):
-    #     p=ecValues[i].replace("\\:", ":")
+    #     p=evValues[i].replace("\\:", ":")
     #     p=p.replace("\\\\", "\\")
-    #     os.environ[ecNames[i]] = p
+    #     os.environ[evNames[i]] = p
     # os.environ['path'] = npath
