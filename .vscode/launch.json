@@ -10,7 +10,8 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["C:\\aptiov_tools_adl_mod\\AllTools", "NanoX-EL"],
+            "args": ["C:\\AptioV_Tools_ADL_Mod\\VisualeBios\\configuration\\com.ami.veb.ui.prefss",
+                 "C:\\Temp\\Elkhartlake\\nanox-el.dat"],
             "console": "integratedTerminal",
             "justMyCode": true
         }

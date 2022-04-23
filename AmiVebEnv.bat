@@ -37,8 +37,8 @@ set CCX64DIR=%CCX86_ROOT_DIR%\amd64
 set EWDK_DIR=C:\EWDK_1703
 set PATH=%CCX86_ROOT_DIR%;%EWDK_DIR%;%PATH%
 
-@REM set PYTHON_COMMAND=C:\Python\Python38\python.exe
-set PYTHON_COMMAND=C:\Python\Python377rc1\python.exe
+set PYTHON_COMMAND=C:\Python\Python310\python.exe
+@REM set PYTHON_COMMAND=C:\Python\Python377rc1\python.exe
 @REM ---------------------------------------
 :end_Veb_env
-python %~dp0\checkouttool.py %TOOLS_DIR% %1
+python %~dp0checkouttool.py %TOOLS_DIR% %1

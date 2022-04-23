@@ -27,26 +27,7 @@ if exist %Temp_Batch% del %Temp_Batch%
 if exist %VEB%.veb (
 
 @REM reset build tool to version indicated by .VEB file 
-@REM python %~dp0\checkouttool.py %TOOLS_DIR% %VEB%
-
-@REM pause
-@REM gawk "{if (match($0,\"BuildAll\")) print $0}" %VEB%.veb | gawk -F= "{print \"call\", substr($2, index($2,\"AdlinkPkg\"), length($2)-index($2,\"AdlinkPkg\"))}" | gawk "{len=split($4,a,\" \");for(i=1;i<=len;i++) print \"git reset \"a[i]\" --hard\"}" > GitResetVersion.bat
-@REM CD
-@REM set WORK_DIR=%CD%
-@REM echo %WORK_DIR%
-@REM echo %VEB%
-@REM set ResetTool="%CD%\GitResetVersion.bat"
-@REM pause
-@REM @REM pushd %~dp0
-@REM cd %TOOLS_DIR%
-@REM cd ..
-@REM cd 
-@REM pause
-@REM echo ResetTool=%ResetTool%
-@REM call %ResetTool%
-@REM cd %WORK_DIR%
-@REM goto exit_go
-@REM @REM popd
+python %~dp0\checkouttool.py %TOOLS_DIR% %VEB%
 
 @REM get the action indicated by .VEB file
 gawk "{if (match($0,\"BuildAll\")) print $0}" %VEB%.veb | gawk -F= "{print \"call\", substr($2, index($2,\"AdlinkPkg\"), length($2)-index($2,\"AdlinkPkg\"))}" > %Temp_Batch%

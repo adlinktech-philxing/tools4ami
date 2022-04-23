@@ -1,4 +1,5 @@
 # this py will be checkout the adlink build tool(argv[1]) to the version indicated in *.veb
+import shutil
 import sys
 import os
 import git
@@ -45,11 +46,22 @@ if len(toolversion) > 0:
         if toolversion==tags[i].name:
             if i==len(tags)-1:
                 # nexttag=toolversion
-                nexttagcommit=tags[i].commit.hexsha
+                latesttagcommit=tags[i].commit.hexsha
             else:
                 # nexttag=tags[i+1].name
-                nexttagcommit=tags[i+1].commit.parents[0].hexsha
+                latesttagcommit=tags[i+1].commit.parents[0].hexsha
             break
-    tool_repo.git.reset('--hard', nexttagcommit)
-    tool_repo.git.clean('-xdf')
+    # a stash push replacement to save VeB preference  since it is ignored
+    x=tool_repo.head.object.hexsha
+    if not tool_repo.head.object.hexsha==latesttagcommit:
+        preffilepath=Path.joinpath(aptiov_tools_adl_mod_dir, "VisualeBios\configuration\.settings\com.ami.veb.ui.prefs")
+        if (os.path.exists(Path.joinpath(aptiov_tools_adl_mod_dir, preffilepath))):
+            shutil.move(preffilepath, preffilepath.name)
+        # reset the tool repository
+        tool_repo.git.reset('--hard', latesttagcommit)
+        tool_repo.git.clean('-xdf')
+        # a stash pop replacement to restore VeB preference  since it is ignored
+        if (os.path.exists(preffilepath.name)):
+            os.makedirs(preffilepath.parent)
+            shutil.move(preffilepath.name, preffilepath)
     print('Checkout tool to latest', toolversion)
