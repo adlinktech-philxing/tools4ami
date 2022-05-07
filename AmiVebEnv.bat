@@ -2,6 +2,8 @@ set CHECKSUM_FILE=
 if "%2"=="AMI" goto ami_settings
 
 @REM for ADLink framework
+@REM checkout tool version insedicated by project VEB
+@REM python %~dp0checkouttool.py %TOOLS_DIR% %1
 set BUILD_TOOL_DIR=C:\AptioV_Tools_ADL_Mod
 set TOOLS_DIR=%BUILD_TOOL_DIR%\AllTools
 set ADL_TOOLS_DIR=%BUILD_TOOL_DIR%\ADLTool
@@ -42,4 +44,5 @@ set PATH=%CCX86_ROOT_DIR%;%EWDK_DIR%;%PATH%
 set PYTHON_COMMAND=C:\Python\Python310\python.exe
 @REM ---------------------------------------
 :end_Veb_env
-python %~dp0checkouttool.py %TOOLS_DIR% %1
+@REM test
+@REM set PYTHON_COMMAND=C:\Python\Python38\python.exe

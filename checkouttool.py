@@ -40,6 +40,7 @@ with open(vebfile, 'r') as sdlFileH:
 if len(toolversion) > 0:
     # init Repo
     tool_repo = git.Repo(aptiov_tools_adl_mod_dir)
+    latesttagcommit=tool_repo.head.object.hexsha
     # find latest of tool version indicated
     tags=tool_repo.tags
     for i in range(len(tags)):
@@ -51,16 +52,16 @@ if len(toolversion) > 0:
                 # nexttag=tags[i+1].name
                 latesttagcommit=tags[i+1].commit.parents[0].hexsha
             break
-    # a stash push replacement to save VeB preference  since it is ignored
-    x=tool_repo.head.object.hexsha
+    # reset the tool repository if current HEAD is not what indicated
     if not tool_repo.head.object.hexsha==latesttagcommit:
+        # a stash push replacement to save VeB preference since it is ignored
         preffilepath=Path.joinpath(aptiov_tools_adl_mod_dir, "VisualeBios\configuration\.settings\com.ami.veb.ui.prefs")
         if (os.path.exists(Path.joinpath(aptiov_tools_adl_mod_dir, preffilepath))):
             shutil.move(preffilepath, preffilepath.name)
         # reset the tool repository
         tool_repo.git.reset('--hard', latesttagcommit)
         tool_repo.git.clean('-xdf')
-        # a stash pop replacement to restore VeB preference  since it is ignored
+        # a stash pop replacement to restore VeB preference since it is ignored
         if (os.path.exists(preffilepath.name)):
             os.makedirs(preffilepath.parent)
             shutil.move(preffilepath.name, preffilepath)

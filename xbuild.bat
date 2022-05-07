@@ -12,6 +12,7 @@
 @REM ---------------------------------------
 @echo off
 setlocal
+set TIME_START=%time%
 @cls
 @REM ---------------------------------------
 @REM get action command line in VEB
@@ -32,7 +33,7 @@ for /f tokens^=1-2^ delims^=^" %%i in ('findstr /C:%ACTION% %VEB%.veb') do (
 @REM set tool path from VeB setting file and run the Action to build BIOS
 @REM ---------------------------------------
 call %~dp0AmiVebEnv.bat %VEB% %3
-%vebActionLine%
+call %vebActionLine%
 goto end
 :no_veb
 echo Please specific a VEB file:
@@ -40,5 +41,7 @@ echo ------------------------------
 dir /s /b /a:-d *.veb
 echo ------------------------------
 :end
+for /f %%i in ('%~dp0Duration.exe %TIME_START%') do set DURATION=%%i
+echo build duration = %DURATION%
 endlocal
 echo on
