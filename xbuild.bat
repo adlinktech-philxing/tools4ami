@@ -33,7 +33,11 @@ for /f tokens^=1-2^ delims^=^" %%i in ('findstr /C:%ACTION% %VEB%.veb') do (
 @REM set tool path from VeB setting file and run the Action to build BIOS
 @REM ---------------------------------------
 call %~dp0AmiVebEnv.bat %VEB% %3
-call %vebActionLine%
+if NOT "%2" == "z" if NOT "%2" == "z" (
+    call %vebActionLine%
+    goto end
+)
+%vebActionLine%
 goto end
 :no_veb
 echo Please specific a VEB file:
